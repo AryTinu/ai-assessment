@@ -7,7 +7,7 @@ public class User {
     private String name ; 
     private String email ;
     private String password ;
-    private String role;
+    private Role role;
     private LocalDateTime createdAt;
     
     //constructor
@@ -39,10 +39,10 @@ public class User {
     public void setPassword(String password){
         this.password = password;
     }
-    public String getRole(){
+    public Role getRole(){
         return role;
     }
-    public void setRole(String role){
+    public void setRole(Role role){
         this.role = role;
     }
 
