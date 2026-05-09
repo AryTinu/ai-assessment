@@ -1,8 +1,11 @@
 spring:
+  autoconfigure:
+   exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
   datasource:
     url: jdbc:postgresql://localhost:5432/assessment_platform
     username: postgres
-    password: yourpassword
+    password: 0000
 
   jpa:
     hibernate:
@@ -14,4 +17,4 @@ spring:
         format_sql: true
 
 server:
-  port: 8080
+  port: 8081
