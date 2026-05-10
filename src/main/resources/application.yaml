@@ -1,11 +1,8 @@
 spring:
-  autoconfigure:
-   exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-
   datasource:
     url: jdbc:postgresql://localhost:5432/assessment_platform
     username: postgres
-    password: 0000
+    password: 1234
 
   jpa:
     hibernate:
