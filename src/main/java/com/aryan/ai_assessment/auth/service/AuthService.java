@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.time.LocalDateTime;
+import com.aryan.ai_assessment.auth.jwt.JwtService;
 
 @Service
 public class AuthService {
@@ -16,6 +17,8 @@ public class AuthService {
     private UserRepository useRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtService jwtService;
 
     public String register(RegisterRequest request){
         User user = new User();
@@ -41,7 +44,7 @@ public class AuthService {
             return "password not matched";
         }
         
-        return "User Login Succesfully";
+        return jwtService.generateToken(user.getEmail());
     }
 
 }
