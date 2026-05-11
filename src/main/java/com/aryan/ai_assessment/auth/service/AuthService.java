@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.time.LocalDateTime;
 import com.aryan.ai_assessment.auth.jwt.JwtService;
+import com.aryan.ai_assessment.assessment.entity.Assessment;
 
 @Service
 public class AuthService {
@@ -46,5 +47,4 @@ public class AuthService {
         
         return jwtService.generateToken(user.getEmail());
     }
-
 }

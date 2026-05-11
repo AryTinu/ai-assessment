@@ -1,5 +1,6 @@
 package com.aryan.ai_assessment.auth.controller;
 
+import com.aryan.ai_assessment.assessment.entity.Assessment;
 import com.aryan.ai_assessment.auth.dto.LoginRequest;
 import com.aryan.ai_assessment.auth.dto.RegisterRequest;
 import com.aryan.ai_assessment.auth.service.AuthService;
@@ -23,4 +24,8 @@ public class AuthController {
     public String login(@RequestBody LoginRequest request) {
         return authService.login(request);
     }
+    // @PostMapping("/Assessment")
+    // public String Assessment(@RequestBody AssessmentRequest request){
+    //     return authService.Assessment(request);
+    // }
 }
