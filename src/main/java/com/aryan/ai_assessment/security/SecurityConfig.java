@@ -23,7 +23,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(
+
             HttpSecurity http
+
     ) throws Exception {
 
         http
@@ -41,28 +43,16 @@ public class SecurityConfig {
                 .sessionManagement(session ->
 
                         session.sessionCreationPolicy(
+
                                 SessionCreationPolicy.STATELESS
                         )
                 )
 
-                /* AUTHORIZATION */
-
-                // .authorizeHttpRequests(auth -> auth
-                //
-                //         .requestMatchers(
-                //
-                //                 "/api/auth/**",
-                //
-                //                 "/swagger-ui/**",
-                //
-                //                 "/v3/api-docs/**"
-                //
-                //         ).permitAll()
-                //
-                //         .anyRequest().authenticated()
-                // )
+                /* ROUTE AUTHORIZATION */
 
                 .authorizeHttpRequests(auth -> auth
+
+                        /* PUBLIC ROUTES */
 
                         .requestMatchers(
 
@@ -70,11 +60,13 @@ public class SecurityConfig {
 
                                 "/swagger-ui/**",
 
+                                "/swagger-ui.html",
+
                                 "/v3/api-docs/**"
 
                         ).permitAll()
 
-                        /* ASSESSMENT + DASHBOARD REQUIRE JWT */
+                        /* PROTECTED ROUTES */
 
                         .requestMatchers(
 
@@ -83,6 +75,8 @@ public class SecurityConfig {
                                 "/api/dashboard/**"
 
                         ).authenticated()
+
+                        /* EVERYTHING ELSE */
 
                         .anyRequest().authenticated()
                 )

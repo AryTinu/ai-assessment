@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/assessment")
+@CrossOrigin("*")
 public class AssessmentController {
 
     @Autowired
@@ -57,6 +58,7 @@ public class AssessmentController {
 
     @PostMapping("/create")
     public String createAssessment(
+
             @RequestBody Assessment request
     ) {
 
@@ -75,7 +77,9 @@ public class AssessmentController {
     ) {
 
         return assessmentService.createQuestion(
+
                 request,
+
                 assessmentId
         );
     }
@@ -83,7 +87,7 @@ public class AssessmentController {
     /* START ATTEMPT */
 
     @PostMapping("/attempt/start/{assessmentId}/{userId}")
-    public String startAttempt(
+    public CandidateAttempt startAttempt(
 
             @PathVariable Long assessmentId,
 
@@ -91,7 +95,9 @@ public class AssessmentController {
     ) {
 
         return assessmentService.startAttempt(
+
                 assessmentId,
+
                 userId
         );
     }
@@ -107,7 +113,9 @@ public class AssessmentController {
     ) {
 
         return assessmentService.submitAttempt(
+
                 attemptId,
+
                 score
         );
     }
@@ -120,6 +128,8 @@ public class AssessmentController {
             @PathVariable Long userId
     ) {
 
-        return assessmentService.getUserAttempts(userId);
+        return assessmentService.getUserAttempts(
+                userId
+        );
     }
 }

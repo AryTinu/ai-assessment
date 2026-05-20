@@ -1,7 +1,7 @@
 package com.aryan.ai_assessment.assessment.service;
 
-import java.util.List;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.aryan.ai_assessment.assessment.entity.Assessment;
 import com.aryan.ai_assessment.assessment.entity.Question;
@@ -32,7 +32,8 @@ public class AssessmentService {
     @Autowired
     private UserRepository userRepository;
 
-    // CREATE ASSESSMENT
+    /* CREATE ASSESSMENT */
+
     public String createAssessment(
             Assessment request
     ) {
@@ -46,13 +47,17 @@ public class AssessmentService {
         return "Assessment Created Successfully";
     }
 
-    // CREATE QUESTION
+    /* CREATE QUESTION */
+
     public String createQuestion(
+
             Question request,
+
             Long assessmentId
     ) {
 
         Assessment assessment =
+
                 assessmentRepository
                         .findById(assessmentId)
                         .orElse(null);
@@ -62,69 +67,77 @@ public class AssessmentService {
             return "Assessment Not Found";
         }
 
-        // Attach assessment to question
-        request.setAssessment(assessment);
+        request.setAssessment(
+                assessment
+        );
 
-        // Save question
         questionRepository.save(request);
 
         return "Question Added Successfully";
     }
 
-    // LEADERBOARD
+    /* GET LEADERBOARD */
+
     public List<CandidateAttempt> getLeaderboard() {
 
         return candidateAttemptRepository
                 .findAllByOrderByScoreDesc();
     }
 
-    // START ATTEMPT
-    public String startAttempt(
+    /* START ATTEMPT */
+
+    public CandidateAttempt startAttempt(
 
             Long assessmentId,
 
             Long userId
     ) {
 
-        // Find assessment
         Assessment assessment =
+
                 assessmentRepository
                         .findById(assessmentId)
                         .orElse(null);
 
         if (assessment == null) {
 
-            return "Assessment Not Found";
+            return null;
         }
 
-        // Find user
         User user =
+
                 userRepository
                         .findById(userId)
                         .orElse(null);
 
         if (user == null) {
 
-            return "User Not Found";
+            return null;
         }
 
-        // Create attempt
         CandidateAttempt attempt =
                 new CandidateAttempt();
 
-        // Link assessment
-        attempt.setAssessment(assessment);
+        attempt.setAssessment(
+                assessment
+        );
 
-        // Link candidate
-        attempt.setCandidate(user);
+        attempt.setCandidate(
+                user
+        );
 
-        // Save attempt
-        candidateAttemptRepository.save(attempt);
+        attempt.setScore(0);
 
-        return "Attempt Started Successfully";
+        attempt.setSubmittedAt(
+                LocalDateTime.now()
+        );
+
+        return candidateAttemptRepository
+                .save(attempt);
     }
 
-    // SUBMIT ATTEMPT
+    /* SUBMIT ATTEMPT */
+
     public String submitAttempt(
 
             Long attemptId,
@@ -133,6 +146,7 @@ public class AssessmentService {
     ) {
 
         CandidateAttempt attempt =
+
                 candidateAttemptRepository
                         .findById(attemptId)
                         .orElse(null);
@@ -142,21 +156,20 @@ public class AssessmentService {
             return "Attempt Not Found";
         }
 
-        // Set score
         attempt.setScore(score);
 
-        // Set submission time
         attempt.setSubmittedAt(
                 LocalDateTime.now()
         );
 
-        // Save updated attempt
-        candidateAttemptRepository.save(attempt);
+        candidateAttemptRepository
+                .save(attempt);
 
         return "Attempt Submitted Successfully";
     }
 
-    // GET ASSESSMENT
+    /* GET SINGLE ASSESSMENT */
+
     public Assessment getAssessment(
             Long id
     ) {
@@ -166,7 +179,8 @@ public class AssessmentService {
                 .orElse(null);
     }
 
-    // RESULT API
+    /* GET USER ATTEMPTS */
+
     public List<CandidateAttempt> getUserAttempts(
             Long userId
     ) {
@@ -174,8 +188,11 @@ public class AssessmentService {
         return candidateAttemptRepository
                 .findByCandidateId(userId);
     }
+
+    /* GET ALL ASSESSMENTS */
+
     public List<Assessment> getAllAssessments() {
 
-    return assessmentRepository.findAll();
-}
+        return assessmentRepository.findAll();
+    }
 }

@@ -15,6 +15,9 @@ import org.springframework.security.authentication
 import org.springframework.security.core.context
         .SecurityContextHolder;
 
+import org.springframework.security.web.authentication
+        .WebAuthenticationDetailsSource;
+
 import org.springframework.stereotype.Component;
 
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -40,12 +43,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
     ) throws ServletException, IOException {
 
-        /* CURRENT REQUEST PATH */
+        /* CURRENT PATH */
 
         String path =
                 request.getServletPath();
 
-        /* ALLOW PUBLIC ROUTES */
+        /* PUBLIC ROUTES */
 
         if (
 
@@ -72,7 +75,7 @@ public class JwtFilter extends OncePerRequestFilter {
                         "Authorization"
                 );
 
-        /* CHECK TOKEN EXISTS */
+        /* TOKEN VALIDATION */
 
         if (
 
@@ -95,14 +98,14 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        /* REMOVE 'Bearer ' */
+        /* REMOVE BEARER */
 
         String token =
                 authHeader.substring(7);
 
         try {
 
-            /* VALIDATE TOKEN */
+            /* PARSE TOKEN */
 
             Claims claims =
                     Jwts.parser()
@@ -127,7 +130,7 @@ public class JwtFilter extends OncePerRequestFilter {
                             + email
             );
 
-            /* SET SPRING SECURITY AUTH */
+            /* CREATE AUTH OBJECT */
 
             UsernamePasswordAuthenticationToken authentication =
 
@@ -139,6 +142,17 @@ public class JwtFilter extends OncePerRequestFilter {
 
                             Collections.emptyList()
                     );
+
+            /* IMPORTANT */
+
+            authentication.setDetails(
+
+                    new WebAuthenticationDetailsSource()
+
+                            .buildDetails(request)
+            );
+
+            /* SET SECURITY CONTEXT */
 
             SecurityContextHolder
 

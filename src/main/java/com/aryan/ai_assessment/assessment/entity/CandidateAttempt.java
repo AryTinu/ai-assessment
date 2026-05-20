@@ -2,7 +2,7 @@ package com.aryan.ai_assessment.assessment.entity;
 
 import com.aryan.ai_assessment.user.entity.User;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 
@@ -20,22 +20,34 @@ public class CandidateAttempt {
 
     private LocalDateTime submittedAt;
 
-    // Many attempts belong to one candidate
+    // MANY ATTEMPTS BELONG TO ONE USER
+
     @ManyToOne
     @JoinColumn(name = "candidate_id")
+
+    @JsonIgnoreProperties({
+            "password"
+    })
+
     private User candidate;
 
-    // Many attempts belong to one assessment
+    // MANY ATTEMPTS BELONG TO ONE ASSESSMENT
+
     @ManyToOne
     @JoinColumn(name = "assessment_id")
-    @JsonIgnore
+
+    @JsonIgnoreProperties({
+            "questions"
+    })
+
     private Assessment assessment;
 
-    // Default Constructor
+    // DEFAULT CONSTRUCTOR
+
     public CandidateAttempt() {
     }
 
-    // Getters and Setters
+    // GETTERS AND SETTERS
 
     public Long getId() {
         return id;
@@ -53,7 +65,9 @@ public class CandidateAttempt {
         return submittedAt;
     }
 
-    public void setSubmittedAt(LocalDateTime submittedAt) {
+    public void setSubmittedAt(
+            LocalDateTime submittedAt
+    ) {
         this.submittedAt = submittedAt;
     }
 
@@ -61,7 +75,9 @@ public class CandidateAttempt {
         return candidate;
     }
 
-    public void setCandidate(User candidate) {
+    public void setCandidate(
+            User candidate
+    ) {
         this.candidate = candidate;
     }
 
@@ -69,7 +85,9 @@ public class CandidateAttempt {
         return assessment;
     }
 
-    public void setAssessment(Assessment assessment) {
+    public void setAssessment(
+            Assessment assessment
+    ) {
         this.assessment = assessment;
     }
 }

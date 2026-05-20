@@ -1,18 +1,65 @@
 package com.aryan.ai_assessment.auth.dto;
 
 public class AuthResponse {
-    private String token;
-    public AuthResponse(){
 
+    private Long id;
+
+    private String name;
+
+    private String email;
+
+    private String token;
+
+    public AuthResponse() {
     }
 
-    public AuthResponse(String token){
+    public AuthResponse(
+
+            Long id,
+
+            String name,
+
+            String email,
+
+            String token
+
+    ) {
+
+        this.id = id;
+        this.name = name;
+        this.email = email;
         this.token = token;
     }
-    public String getToken(){
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getToken() {
         return token;
     }
-    public void setToken(String token){
+
+    public void setToken(String token) {
         this.token = token;
     }
 }
