@@ -2,6 +2,8 @@ package com.aryan.ai_assessment.assessment.entity;
 
 import com.aryan.ai_assessment.user.entity.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -26,6 +28,7 @@ public class CandidateAttempt {
     // Many attempts belong to one assessment
     @ManyToOne
     @JoinColumn(name = "assessment_id")
+    @JsonIgnore
     private Assessment assessment;
 
     // Default Constructor

@@ -1,5 +1,5 @@
 package com.aryan.ai_assessment.assessment.entity;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -23,10 +23,10 @@ public class Question {
     private String correctAnswer;
 
     // Many questions belong to one assessment
-    @ManyToOne
-    @JoinColumn(name = "assessment_id")
-    private Assessment assessment;
-
+  @ManyToOne
+@JoinColumn(name = "assessment_id")
+@JsonIgnore
+private Assessment assessment;
     // Default Constructor
     public Question() {
     }

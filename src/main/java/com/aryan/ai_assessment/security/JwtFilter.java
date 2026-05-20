@@ -5,13 +5,23 @@ import io.jsonwebtoken.Jwts;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication
+        .UsernamePasswordAuthenticationToken;
+
+import org.springframework.security.core.context
+        .SecurityContextHolder;
+
 import org.springframework.stereotype.Component;
+
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
+import java.util.Collections;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -21,31 +31,62 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(
+
             HttpServletRequest request,
+
             HttpServletResponse response,
+
             FilterChain filterChain
+
     ) throws ServletException, IOException {
 
-        // Allow login and register APIs without JWT
-        String path = request.getServletPath();
+        /* CURRENT REQUEST PATH */
 
-        if (path.startsWith("/api/auth")) {
+        String path =
+                request.getServletPath();
 
-            filterChain.doFilter(request, response);
+        /* ALLOW PUBLIC ROUTES */
+
+        if (
+
+                path.startsWith("/api/auth") ||
+
+                path.startsWith("/swagger-ui") ||
+
+                path.startsWith("/v3/api-docs")
+
+        ) {
+
+            filterChain.doFilter(
+                    request,
+                    response
+            );
 
             return;
         }
 
-        // Get Authorization header
-        String authHeader =
-                request.getHeader("Authorization");
+        /* GET AUTH HEADER */
 
-        // Check if token exists
-        if (authHeader == null ||
-                !authHeader.startsWith("Bearer ")) {
+        String authHeader =
+                request.getHeader(
+                        "Authorization"
+                );
+
+        /* CHECK TOKEN EXISTS */
+
+        if (
+
+                authHeader == null ||
+
+                !authHeader.startsWith(
+                        "Bearer "
+                )
+
+        ) {
 
             response.setStatus(
-                    HttpServletResponse.SC_UNAUTHORIZED
+                    HttpServletResponse
+                            .SC_UNAUTHORIZED
             );
 
             response.getWriter()
@@ -54,30 +95,64 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        // Remove "Bearer "
+        /* REMOVE 'Bearer ' */
+
         String token =
                 authHeader.substring(7);
 
         try {
 
-            // Validate token
+            /* VALIDATE TOKEN */
+
             Claims claims =
                     Jwts.parser()
-                            .setSigningKey(SECRET_KEY)
-                            .parseClaimsJws(token)
+
+                            .setSigningKey(
+                                    SECRET_KEY
+                            )
+
+                            .parseClaimsJws(
+                                    token
+                            )
+
                             .getBody();
+
+            /* EXTRACT EMAIL */
 
             String email =
                     claims.getSubject();
 
             System.out.println(
-                    "Authenticated User: " + email
+                    "Authenticated User: "
+                            + email
             );
+
+            /* SET SPRING SECURITY AUTH */
+
+            UsernamePasswordAuthenticationToken authentication =
+
+                    new UsernamePasswordAuthenticationToken(
+
+                            email,
+
+                            null,
+
+                            Collections.emptyList()
+                    );
+
+            SecurityContextHolder
+
+                    .getContext()
+
+                    .setAuthentication(
+                            authentication
+                    );
 
         } catch (Exception e) {
 
             response.setStatus(
-                    HttpServletResponse.SC_UNAUTHORIZED
+                    HttpServletResponse
+                            .SC_UNAUTHORIZED
             );
 
             response.getWriter()
@@ -86,6 +161,9 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(
+                request,
+                response
+        );
     }
 }

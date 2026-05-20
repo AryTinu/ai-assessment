@@ -3,6 +3,7 @@ package com.aryan.ai_assessment.assessment.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "assessments")
@@ -20,14 +21,26 @@ public class Assessment {
 
     private LocalDateTime createdAt;
 
-    // Default Constructor
+    @OneToMany(
+            mappedBy = "assessment",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
+    private List<Question> questions;
+
+    // DEFAULT CONSTRUCTOR
+
     public Assessment() {
     }
 
-    // Getters and Setters
+    // GETTERS & SETTERS
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -60,5 +73,13 @@ public class Assessment {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 }
