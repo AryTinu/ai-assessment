@@ -1,0 +1,99 @@
+.navbar-dashboard {
+  height: 80px;
+
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 30px;
+}
+
+.search-box {
+  width: 420px;
+  height: 50px;
+
+  border-radius: 16px;
+
+  background: rgba(255,255,255,0.05);
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 0 18px;
+
+  color: #94A3B8;
+}
+
+.search-box input {
+  flex: 1;
+
+  background: transparent;
+
+  border: none;
+
+  color: white;
+
+  outline: none;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar {
+  width: 46px;
+  height: 46px;
+
+  border-radius: 50%;
+
+  background: #7C3AED;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+}
+.logout-btn {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  border: none;
+
+  background: #EF4444;
+
+  color: white;
+
+  padding: 10px 16px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition: 0.3s ease;
+}
+
+.logout-btn:hover {
+
+  background: #DC2626;
+
+  transform: translateY(-2px);
+}
