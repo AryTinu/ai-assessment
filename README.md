@@ -1,1 +1,0 @@
-Built an AI-powered assessment platform using Spring Boot that extracts questions from PDFs, generates assessments, and evaluates candidates in real time using Redis, RabbitMQ, PostgreSQL, WebSockets, and OpenAI APIs for scalable backend processing and intelligent evaluation
